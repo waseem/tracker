@@ -1,5 +1,7 @@
 require File.join(File.expand_path(File.dirname(__FILE__)), '..', 'boot')
 require 'database'
+require 'cache'
+require 'key_hasher'
 require 'sinatra'
 require 'logger'
 
@@ -14,7 +16,10 @@ configure do
   set :logger, logger
 end
 
+# Return logger and save it in Sinatra `setting` object.
 def logger; settings.logger; end
+
+cache = Cache.new(KeyHasher, logger)
 
 # Redirect to sharepop in case no shortlink is provided
 get '/' do
@@ -22,11 +27,13 @@ get '/' do
 end
 
 get '/:shortlink' do
-  shortlink = Shortlink.where("id = ? OR slug = ?", params[:shortlink], params[:shortlink]).take
+  shortlink = cache.fetch(params[:shortlink]) do
+     Shortlink.cacheable_object(params[:shortlink])
+  end
 
-  if shortlink.present? && shortlink.has_active_campaign?
+  if shortlink
+    redirect to(shortlink[:offer_url])
 
-    redirect to(shortlink.campaign.offer_url)
   else
     redirect to("http://sharepop.com")
   end

@@ -30,7 +30,7 @@ describe "Tracker Application" do
     context "campaign is inactive" do
       it "redirects to sharepop" do
         campaign = Campaign.create!(name: "Aura", status: "expired", offer_url: "http://i.imgur.com/TIuaCAW.jpg")
-        shortlink = Shortlink.create!(slug: "testing", campaign: campaign)
+        shortlink = Shortlink.create!(slug: "slug1", campaign: campaign)
 
         get "/#{shortlink.id}"
         expect(last_response).to be_redirect
@@ -45,7 +45,7 @@ describe "Tracker Application" do
     context "campaign is valid" do
       it "redirects to offer url" do
         campaign = Campaign.create!(name: "Aura", status: "active", offer_url: "http://i.imgur.com/TIuaCAW.jpg")
-        shortlink = Shortlink.create!(slug: "testing", campaign: campaign)
+        shortlink = Shortlink.create!(slug: "slug2", campaign: campaign)
 
         get "/#{shortlink.id}"
         expect(last_response).to be_redirect

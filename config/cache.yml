@@ -1,0 +1,6 @@
+development:
+  # Miliseconds after which a record should expire.
+  expiration: 0
+
+test:
+  expiration: 0

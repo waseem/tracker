@@ -4,12 +4,14 @@ Campaign Tracker
 Structure
 ---------
 
-`app/app.rb` - Sinatra application.
-`db/config.rb` - Database configuration.
-`db/migrate` - Schema migration files.
-`boot.rb` - Add project specific directories to `$LOAD_PATH`
-`script/seeds.rb` - Creates initial database.
-`data` - JSON for initial seed data.
+`app/app.rb`        - Sinatra application.
+`db/config.rb`      - Database configuration.
+`db/migrate`        - Schema migration files.
+`boot.rb`           - Add project specific directories to `$LOAD_PATH`
+`script/seeds.rb`   - Creates initial database.
+`data`              - JSON for initial seed data.
+`app/cache.rb`      - Basic cache.
+`app/key_hasher.rb` - Module that provides hashing functions for cached keys.
 
 Starting the Application
 ---------
@@ -71,3 +73,9 @@ Seeding the Database
 - I have not created columns in `campaigns` table for attributes `visibility_status`, `scheduled_pause_at`, `priority`, `store_id`, `rpc_coins`, `rpc_usd`, `ppc_coins`, `ppc_usd`, `preview_url` and `tenant_id`. These attributes did not pertain to problem set.
 
 - `shortlinks` table does not have columns pertaining to `shortlink_id` and `user_id` because these attributes did not pertain to the problem set.
+
+
+Cache
+---------
+
+`app/cache.rb` contains basic caching mechanism for the shortlinks. Once you start the application, you can observe the cache hit and misses in `log/development.log`.
