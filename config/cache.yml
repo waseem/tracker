@@ -1,6 +1,6 @@
 development:
   # Miliseconds after which a record should expire.
-  expiration: 0
+  expire_after: <%= 5 * 60 * 1000 %> # Five minutes
 
 test:
-  expiration: 0
+  expire_after: 0 # Object is always stale

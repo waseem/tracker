@@ -19,7 +19,9 @@ end
 # Return logger and save it in Sinatra `setting` object.
 def logger; settings.logger; end
 
-cache = Cache.new(KeyHasher, logger)
+cache_config = YAML::load(ERB.new(IO.read(File.join(File.dirname(__FILE__), '..', 'config', 'cache.yml'))).result)[ENV['RACK_ENV']]
+
+cache = Cache.new(KeyHasher, logger, cache_config["expire_after"])
 
 # Redirect to sharepop in case no shortlink is provided
 get '/' do

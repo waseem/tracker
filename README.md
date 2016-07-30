@@ -12,6 +12,7 @@ Structure
 `data`              - JSON for initial seed data.
 `app/cache.rb`      - Basic cache.
 `app/key_hasher.rb` - Module that provides hashing functions for cached keys.
+`config/cache.yml`  - Cache specific configuration. (for expiration time of objects)
 
 Starting the Application
 ---------
@@ -78,4 +79,8 @@ Seeding the Database
 Cache
 ---------
 
-`app/cache.rb` contains basic caching mechanism for the shortlinks. Once you start the application, you can observe the cache hit and misses in `log/development.log`.
+- `app/cache.rb` contains basic caching mechanism for the shortlinks. Once you start the application, you can observe the cache hit and misses in `log/development.log`.
+
+- You can change the value of `expire_after` for the number of milliseconds after which a cached object will be considered stale.
+
+- The expiration time is on per object basis. i.e. Expiration of one cached object does not affect any other cached object.
