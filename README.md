@@ -38,6 +38,15 @@ First clone the application to your machine with git. The `cd` into the project 
 Executing Tests
 ---------
 
+1. Create test database in your local MySQL server.
+  `mysql> CREATE DATABASE tracker_test`
+
+2. Migrate the database.
+  `RACK_ENV=test bundle exec rake db:migrate`
+
+3. Run all tests
+  `bundle exec rspec spec`
+
 Notes
 ---------
 
@@ -59,6 +68,6 @@ Seeding the Database
 
 - Always add new records to `data/campaigns.json` or `data/shortlink.json` at the bottom of the JSON. This is because value in `id` column is generated automatically by `ActiveRecord`. In case you move around the records in JSON and then seed the database, references in `shortlink.json (campaign_id )` won't reference the intended record in `campaigns.json` that you want to.
 
-- I have not created columns in `campaigns` table for attributes `visibility_status`, `scheduled_pause_at`, `priority`, `store_id`, `rpc_coins`, `rpc_usd`, `ppc_coins`, `ppc_usd`,	`preview_url` and `tenant_id`. These attributes did not pertain to problem set.
+- I have not created columns in `campaigns` table for attributes `visibility_status`, `scheduled_pause_at`, `priority`, `store_id`, `rpc_coins`, `rpc_usd`, `ppc_coins`, `ppc_usd`, `preview_url` and `tenant_id`. These attributes did not pertain to problem set.
 
 - `shortlinks` table does not have columns pertaining to `shortlink_id` and `user_id` because these attributes did not pertain to the problem set.

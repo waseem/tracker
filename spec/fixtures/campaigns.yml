@@ -1,0 +1,11 @@
+expired:
+  name: Aura
+  status: expired
+  offer_url: http://i.imgur.com/dxNs3ch.gifv
+  preview_url: http://play.google.com/bla
+
+active:
+  name: Aura
+  status: active
+  offer_url: http://i.imgur.com/rZgiiqZ.jpg
+  preview_url: http://play.google.com/bla

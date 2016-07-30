@@ -1,3 +1,5 @@
+require File.join(File.expand_path(File.dirname(__FILE__)), '..', 'boot')
+require 'database'
 require 'sinatra'
 require 'logger'
 
@@ -20,5 +22,12 @@ get '/' do
 end
 
 get '/:shortlink' do
-  "#{params[:shortlink]}"
+  shortlink = Shortlink.where("id = ? OR slug = ?", params[:shortlink], params[:shortlink]).take
+
+  if shortlink.present? && shortlink.has_active_campaign?
+
+    redirect to(shortlink.campaign.offer_url)
+  else
+    redirect to("http://sharepop.com")
+  end
 end
