@@ -1,0 +1,31 @@
+[{
+	"id": 1,
+	"name": "Aura",
+	"status": "expired",
+	"visibility_status": "visible",
+	"scheduled_pause_at": "2016-07-27T13:44:28.591Z",
+	"priority": 3,
+	"store_id": 1,
+	"rpc_coins": 0.12,
+	"rpc_usd": 12,
+	"ppc_coins": 0.13,
+	"ppc_usd": 13,
+	"offer_url": "http://i.imgur.com/dxNs3ch.gifv",
+	"preview_url": "http://play.google.com/bla",
+	"tenant_id": 3
+},{
+	"id": 2,
+	"name": "Aura",
+	"status": "active",
+	"visibility_status": "visible",
+	"scheduled_pause_at": "2016-08-27T13:44:28.591Z",
+	"priority": 3,
+	"store_id": 1,
+	"rpc_coins": 0.12,
+	"rpc_usd": 12,
+	"ppc_coins": 0.13,
+	"ppc_usd": 13,
+	"offer_url": "http://i.imgur.com/rZgiiqZ.jpg",
+	"preview_url": "http://play.google.com/bla",
+	"tenant_id": 3
+}]
