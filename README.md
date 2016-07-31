@@ -5,14 +5,23 @@ Structure
 ---------
 
 `app/app.rb`        - Sinatra application.
+
 `db/config.rb`      - Database configuration.
+
 `db/migrate`        - Schema migration files.
+
 `boot.rb`           - Add project specific directories to `$LOAD_PATH`
+
 `script/seeds.rb`   - Creates initial database.
+
 `data`              - JSON for initial seed data.
+
 `app/cache.rb`      - Basic cache.
+
 `app/key_hasher.rb` - Module that provides hashing functions for cached keys.
+
 `config/cache.yml`  - Cache specific configuration. (for expiration time of objects)
+
 `config/resque.yml` - Connections settings for Redis used by our Queue processor
 
 Starting the Application
@@ -73,9 +82,11 @@ Loading database models in irb
 
 You can load up the models in `app/models` in your irb session by doing following.
 
-  `irb> require '/path/to/boot'`
-  `irb> require 'database'`
-  `irb> Shortlink.first`
+```
+  irb> require '/path/to/boot'
+  irb> require 'database'
+  irb> Shortlink.first
+```
 
 Seeding the Database
 ---------
