@@ -18,6 +18,28 @@ describe "Tracker Application" do
   end
 
   describe "/:shortlink" do
+    context "queue is available" do
+      it "enqueues the parameters and headers for processing" do
+        expect(Resque).to receive(:enqueue).with(PostProcessorQueue, /\"shortlink\": \"nonexisting\"/, /\"REQUEST_METHOD\": \"GET\"/).once
+
+        get "/nonexisting"
+
+        expect(last_response).to be_redirect
+        expect(last_response.location).to eq("http://sharepop.com")
+      end
+    end
+
+    context "queue is unavailable" do
+      it "enqueues the parameters and headers for processing after retrying" do
+        allow(Resque).to receive(:enqueue).with(PostProcessorQueue, /\"shortlink\": \"nonexisting\"/, /\"REQUEST_METHOD\": \"GET\"/).once.and_raise(Redis::CannotConnectError)
+        expect(Resque).to receive(:enqueue).with(PostProcessorQueue, /\"shortlink\": \"nonexisting\"/, /\"REQUEST_METHOD\": \"GET\"/).and_return(true)
+
+        get "/nonexisting"
+
+        expect(last_response).to be_redirect
+        expect(last_response.location).to eq("http://sharepop.com")
+      end
+    end
     context "shortlin is absent" do
       it "redirects to sharepop" do
         get "/nonexisting"

@@ -9,3 +9,7 @@ $:.unshift(path) unless $:.include?(path)
 # Add app/cache to loadpath
 path = File.join(File.expand_path(File.dirname(__FILE__)), 'app', 'cache')
 $:.unshift(path) unless $:.include?(path)
+
+# Add app/queues to loadpath
+path = File.join(File.expand_path(File.dirname(__FILE__)), 'app', 'queues')
+$:.unshift(path) unless $:.include?(path)

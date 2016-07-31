@@ -13,6 +13,7 @@ Structure
 `app/cache.rb`      - Basic cache.
 `app/key_hasher.rb` - Module that provides hashing functions for cached keys.
 `config/cache.yml`  - Cache specific configuration. (for expiration time of objects)
+`config/resque.yml` - Connections settings for Redis used by our Queue processor
 
 Starting the Application
 ---------
@@ -33,10 +34,16 @@ First clone the application to your machine with git. The `cd` into the project 
 5. Populate the database with intial data
   `bundle exec ruby script/seeds.rb`
 
-6. Start the server
+6. Start the Redis server
+   `redis-server`
+
+7. Start the Queue processors
+   `QUEUE=* VERBOSE=true PIDFILE=/tmp/resque0.pid bundle exec rake environment resque:work --trace`
+
+8. Start the server
   `bundle exec ruby app/app.rb`
 
-7. Visit a Shortlink in your browser like *localhost:4567/123* (`123` is id) or *localhost:4567/foo* (`foo` is slug).
+9. Visit a Shortlink in your browser like *localhost:4567/123* (`123` is id) or *localhost:4567/foo* (`foo` is slug).
 
 Executing Tests
 ---------
@@ -47,7 +54,13 @@ Executing Tests
 2. Migrate the database.
   `RACK_ENV=test bundle exec rake db:migrate`
 
-3. Run all tests
+3. Start the Redis server
+   `redis-server`
+
+7. Start the Queue processors (Optional)
+   `RACKE_ENV=test QUEUE=* VERBOSE=true PIDFILE=/tmp/resque0.pid bundle exec rake environment resque:work --trace`
+
+4. Run all tests
   `bundle exec rspec spec`
 
 Notes
@@ -75,7 +88,6 @@ Seeding the Database
 
 - `shortlinks` table does not have columns pertaining to `shortlink_id` and `user_id` because these attributes did not pertain to the problem set.
 
-
 Cache
 ---------
 
@@ -84,3 +96,12 @@ Cache
 - You can change the value of `expire_after` for the number of milliseconds after which a cached object will be considered stale.
 
 - The expiration time is on per object basis. i.e. Expiration of one cached object does not affect any other cached object.
+
+Background Processing
+---------
+
+- You can see the output of parameters and headers being processed in environment specific log file under `log`.
+
+- You can see the queue picking and processing the jobs in `resque:work` output.
+
+- The queue processor does not do much. It simply prints the parameters and headers to log file.
