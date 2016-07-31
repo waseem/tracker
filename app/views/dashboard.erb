@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tracker Dashboard</title>
+  </head>
+
+  <body>
+    <dl>
+      <dt>Jobs to be Processed</dt>
+      <dd><%= pending %></dd>
+
+      <dt>Total Processed Jobs</dt>
+      <dd><%= processed %></dd>
+
+      <dt>Failed Jobs</dt>
+      <dd><%= failed %></dd>
+
+      <dt>Successfully Processed Jobs</dt>
+      <dd><%= processed - failed %></dd>
+    </dl>
+
+    <h3>Cache</h3>
+    <pre>
+      <%= JSON.pretty_generate(cache) %>
+    </pre>
+  </body>
+</html>

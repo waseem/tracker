@@ -33,6 +33,15 @@ get '/' do
   redirect to('http://sharepop.com')
 end
 
+get '/dashboard' do
+  erb :dashboard, locals: {
+    pending: Resque.info[:pending],
+    processed: Resque.info[:processed],
+    failed: Resque.info[:failed],
+    cache: cache.storage
+  }
+end
+
 get '/:shortlink' do
   retries = 1
   enqueued = false

@@ -17,6 +17,19 @@ describe "Tracker Application" do
     end
   end
 
+  describe '/dashboard' do
+    it 'renders dashboard template' do
+      get '/dashboard'
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include("Jobs to be Processed")
+      expect(last_response.body).to include("Total Processed Jobs")
+      expect(last_response.body).to include("Failed Jobs")
+      expect(last_response.body).to include("Successfully Processed Jobs")
+      expect(last_response.body).to include("Cache")
+    end
+  end
+
   describe "/:shortlink" do
     context "queue is available" do
       it "enqueues the parameters and headers for processing" do

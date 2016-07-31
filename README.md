@@ -45,6 +45,8 @@ First clone the application to your machine with git. The `cd` into the project 
 
 9. Visit a Shortlink in your browser like *localhost:4567/123* (`123` is id) or *localhost:4567/foo* (`foo` is slug).
 
+10. Visit *localhost:4567/dashboard* for information on Queue and Cache.
+
 Executing Tests
 ---------
 
@@ -105,3 +107,45 @@ Background Processing
 - You can see the queue picking and processing the jobs in `resque:work` output.
 
 - The queue processor does not do much. It simply prints the parameters and headers to log file.
+
+
+Confusion
+---------
+
+Regarding this requirement related to Background queue management:
+
+In case you receive a failure _FROM_ the queue, you should retry
+pushing the same message again with an exponential backoff time using
+the following formula: (2^retries * 100) milliseconds. (emphasis mine)
+
+The word _FROM_ in this statement is confusing.
+
+I can think of two scenarios with respect to above requirement:
+
+1. When the request arrives at the application from browser and before
+redirecting it to the offer url, application will try to enqueue the
+parameters and headers to queue for logging. But in case the queue
+returns error(possibly timeout) the application will keep trying with
+exponentially increasing time to connect to the queue again and again.
+
+If this is the case, the redirect might take a long a time. And the
+browser will reject the request with a timeout error. This could be
+avoided by limiting the number of retries.
+
+2. When the request arrives at the application from the browser and
+parameters and headers are queued for logging successfully. (Assuming
+queue is always available. If the queue is not available, this should
+be considered an exceptional condition and the issue of queue not
+being available should be investigated).
+
+During processing, the worker process faces some error. In this case
+the parameters and headers are enqueued again after exponentially
+increasing time to process the parameters.
+
+If this is the case, the worker process will blocked till parameters
+are processed. This could be avoided by limiting the number of
+retries.
+
+Which of the above two scenarios does the problem set talks about?
+
+I have assumed the first scenario with no limit on number of retries.
